@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#29253c" />
+    <meta
+      name="description"
+      content="Jump AI slop, collect tokens and see what took out your robot at the recycling plant."
+    />
+    <title>Slop Jumpers</title>
+    <link rel="icon" type="image/png" href="/robot-icon.png" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="masthead">
+        <a class="brand" href="/" aria-label="Slop Jumpers home"
+          ><img class="brand-icon" src="/robot-icon.png" width="34" height="34" alt="" /><span
+            >SLOP<span class="brand-light">JUMPERS</span></span
+          ></a
+        ><span class="edition">SYNTHETIC CONTENT RECYCLING</span>
+      </header>
+      <main>
+        <section class="intro">
+          <div>
+            <p class="eyebrow">AI SLOP RECYCLING PLANT</p>
+            <h1>Slop Jumpers</h1>
+            <p class="lede">Jump the junk and collect tokens. One collision ends the shift.</p>
+          </div>
+          <div class="trail-stamp">
+            <span>⚙</span>
+            <div>1,500 M<small>per sorting belt</small></div>
+          </div>
+        </section>
+        <div class="layout">
+          <section class="play-column" aria-label="Runner game">
+            <div class="game-card">
+              <div class="game-toolbar">
+                <span class="live-label"><i></i><span id="system-state">READY TO BOOT</span></span
+                ><span id="mode-label">Ready for the sorting belt</span
+                ><span id="level-label" class="course-label">LEVEL 01</span>
+              </div>
+              <div class="game-stage">
+                <canvas
+                  id="trail"
+                  tabindex="0"
+                  aria-label="Robot runner. Press Space, Up, W, or tap to jump over AI slop."
+                ></canvas>
+                <div class="game-hud" id="game-hud" hidden>
+                  <div>
+                    <span id="distance">0</span><small>METRES</small><small id="speed">1.00× SPEED</small>
+                  </div>
+                  <div class="hud-secondary">
+                    <span id="tokens">0</span
+                    ><small><span class="token-symbol" aria-hidden="true">⬢</span> TOKENS</small
+                    ><span id="lives" aria-label="1 life">♥ 1 LIFE</span>
+                  </div>
+                </div>
+                <form class="start-overlay" id="profile">
+                  <h2>Clock in.</h2>
+                  <p>Guide your robot past the AI slop on the sorting belt.</p>
+                  <div class="profile-fields">
+                    <label for="nickname"
+                      >Name<input
+                        id="nickname"
+                        name="nickname"
+                        maxlength="20"
+                        placeholder="Your name"
+                        autocomplete="nickname"
+                        required
+                    /></label>
+                    <div class="profile-field">
+                      <label for="nationality">Nationality</label
+                      ><select id="nationality" name="nationality" required>
+                        <option value="">Choose nationality</option>
+                      </select>
+                    </div>
+                  </div>
+                  <button class="primary" id="start" type="submit">Start running <span>→</span></button
+                  ><span class="start-hint">SPACE TO JUMP · OR TAP THE TRAIL</span>
+                </form>
+                <div class="finish-overlay" id="finish-overlay" hidden>
+                  <span class="trail-tag" id="finish-heading">ROBOT OFFLINE</span>
+                  <h2 id="finish-distance">0 metres.</h2>
+                  <p id="finish-hit" class="finish-hit" role="status" hidden></p>
+                  <p id="finish-detail"></p>
+                  <button class="primary" id="again">Restart game ↗</button>
+                </div>
+              </div>
+              <div class="play-controls">
+                <div class="identity">
+                  <span class="eyebrow">PILOT</span><strong id="pilot">Awaiting registration</strong>
+                </div>
+                <div class="key-hint"><kbd>SPACE</kbd><span>jump</span><span>/ tap to jump</span></div>
+                <button class="quiet" id="restart">Restart game ↻</button>
+              </div>
+            </div>
+            <section class="history-card">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">EVERY ROBOT LEAVES A MARK</p>
+                  <h2>Previous runs</h2>
+                </div>
+                <button class="quiet" id="refresh-history">Refresh ↻</button>
+              </div>
+              <div class="save-warning" id="save-warning" hidden>
+                <div role="status">
+                  <strong id="save-title"></strong>
+                  <p id="save-detail"></p>
+                </div>
+                <button class="secondary small" id="retry">Retry saves</button>
+              </div>
+              <div class="history" id="history"></div>
+              <p class="fine" id="history-message"></p>
+            </section>
+          </section>
+          <aside>
+            <section
+              class="leaderboard-card"
+              id="leaderboard-panel"
+              aria-label="Leaderboard"
+              aria-busy="false"
+            >
+              <div id="leaderboard-content">
+                <div class="section-heading">
+                  <div>
+                    <p class="eyebrow">THE WORLD IS RUNNING</p>
+                    <h2>Leaderboard</h2>
+                  </div>
+                  <button class="round-button" id="refresh-leaderboard" aria-label="Refresh leaderboard">
+                    ↻
+                  </button>
+                </div>
+                <p class="leaderboard-intro">Best distance per pilot, with the slop that ended each run.</p>
+                <div class="leaderboard-status" id="board-status" role="status">Finding fellow robots…</div>
+                <ol class="records" id="records"></ol>
+                <div class="freshness"><i></i><span id="freshness">Waiting for first update</span></div>
+                <p class="fine">Updates every 10 seconds.</p>
+              </div>
+              <div id="leaderboard-overlay" class="leaderboard-overlay" hidden tabindex="-1">
+                <div role="status" aria-live="polite" aria-atomic="true">
+                  <span class="spinner" id="leaderboard-spinner" aria-hidden="true"></span>
+                  <h2 id="leaderboard-title"></h2>
+                  <p id="leaderboard-detail"></p>
+                </div>
+                <button class="primary" id="leaderboard-retry" hidden>Retry leaderboard</button>
+              </div>
+            </section>
+          </aside>
+        </div>
+        <footer>
+          <span>SLOP JUMPERS</span>
+        </footer>
+      </main>
+      <div
+        id="network"
+        class="network-overlay"
+        hidden
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="network-title"
+        aria-describedby="network-detail"
+        tabindex="-1"
+      >
+        <div class="network-card">
+          <span class="spinner" id="network-spinner"></span><span class="trail-tag">CONNECTION PAUSED</span>
+          <h2 id="network-title"></h2>
+          <p id="network-detail"></p>
+          <button class="primary" id="network-retry" hidden>Retry</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

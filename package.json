@@ -1,0 +1,11 @@
+{
+  "name": "slop-jumpers-workshop",
+  "private": true,
+  "scripts": {
+    "test:unit": "cd frontend && npm exec -- vitest run --project=unit",
+    "test:integration": "node tools/test-api.mjs --with-client",
+    "test:e2e": "npm --prefix frontend run test:browser -- --project=e2e",
+    "test:browser:demo": "npm --prefix frontend run test:browser:demo --",
+    "test:checkpoint": "node tools/test-api.mjs --client"
+  }
+}

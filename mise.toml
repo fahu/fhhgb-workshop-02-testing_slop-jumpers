@@ -1,0 +1,26 @@
+[tools]
+java = "temurin-21"
+node = "24"
+
+[tasks.backend]
+description = "Start the Spring Boot API on port 8092"
+dir = "backend"
+run = "./mvnw spring-boot:run"
+run_windows = '.\mvnw.cmd spring-boot:run'
+
+[tasks."frontend:install"]
+description = "Install the frontend dependencies"
+dir = "frontend"
+sources = ["package.json", "package-lock.json"]
+outputs = ["node_modules/.package-lock.json"]
+run = "npm ci"
+
+[tasks.frontend]
+description = "Start the Vite development server on port 5175"
+dir = "frontend"
+depends = ["frontend:install"]
+run = "npm run dev"
+
+[tasks.dev]
+description = "Start the backend and frontend together"
+depends = ["backend", "frontend"]

@@ -1,0 +1,25 @@
+{
+  "name": "slop-jumpers",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "vitest run --project=unit --project=unit-regression",
+    "test:integration": "node ../tools/test-api.mjs --client",
+    "test:retry": "vitest run --config vitest.live.config.ts sync.spec.ts -t \"after a 503\"",
+    "test:e2e": "playwright test --project=e2e --project=e2e-regression",
+    "test:browser": "playwright test",
+    "test:browser:demo": "playwright test --project=e2e --grep @demo --debug"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "happy-dom": "20.14.5",
+    "typescript": "7.0.2",
+    "vite": "8.3.8",
+    "vitest": "4.1.11"
+  }
+}
